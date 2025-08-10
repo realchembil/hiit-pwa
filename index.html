@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HIIT Timer</title>
+  <meta name="theme-color" content="#0b875b">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Progressive Web App HIIT timer with 20-min workout, 2-min warmup, 30/30 intervals, 2-min breaks, 1-min cooldown.">
+</head>
+<body>
+  <header>
+    <h1>HIIT Timer</h1>
+    <button id="installBtn" hidden>Install</button>
+  </header>
+
+  <main>
+    <section class="display">
+      <div id="phase" class="phase">Ready</div>
+      <div id="bigTime" class="big-time">00:00</div>
+      <div class="subtimes">
+        <div><strong>Next:</strong> <span id="nextPhase">—</span></div>
+        <div><strong>Total:</strong> <span id="elapsed">00:00</span> / <span id="total">00:00</span></div>
+        <!-- NEW: High-interval counter -->
+        <div><strong>High intervals:</strong> <span id="highCount">0</span>/<span id="highTotal">0</span></div>
+        </div>
+      <div class="progress-wrap" aria-label="overall progress">
+        <div id="progress" class="progress"></div>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="controls">
+      <button id="startPause" class="primary">Start</button>
+      <button id="skip" class="secondary">Skip</button>
+      <button id="reset" class="secondary">Reset</button>
+    </section>
+
+    <details class="panel">
+      <summary>Options</summary>
+      <div class="grid">
+        <label>Warmup (sec)
+          <input id="optWarm" type="number" min="0" step="5" value="120">
+        </label>
+        <label>Workout total (min)
+          <input id="optWorkMin" type="number" min="1" value="20">
+        </label>
+        <label>High (sec)
+          <input id="optHigh" type="number" min="5" step="5" value="30">
+        </label>
+        <label>Low (sec)
+          <input id="optLow" type="number" min="5" step="5" value="30">
+        </label>
+        <label>Cycles per block
+          <input id="optPerBlock" type="number" min="1" value="5">
+        </label>
+        <label>Block break (sec)
+          <input id="optBreak" type="number" min="0" step="5" value="120">
+        </label>
+        <label>Cooldown (sec)
+          <input id="optCool" type="number" min="0" step="5" value="60">
+        </label>
+        <label class="row">
+          <input id="soundOn" type="checkbox" checked> Beeps
+        </label>
+        <label class="row">
+          <input id="vibrateOn" type="checkbox" checked> Vibrate
+        </label>
+        <label class="row">
+          <input id="ttsOn" type="checkbox"> Voice cues
+        </label>
+        <label class="row">
+          <input id="keepAwake" type="checkbox" checked> Keep screen awake
+        </label>
+      </div>
+      <button id="apply" class="primary small">Apply</button>
+    </details>
+
+    <ol id="plan" class="plan" aria-label="session plan"></ol>
+  </main>
+
+  <footer>
+    <small>Runs offline. Sounds/vibration are optional to avoid interrupting your music/podcast.</small>
+  </footer>
+
+  <script src="app.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+    }
+  </script>
+</body>
+</html>
